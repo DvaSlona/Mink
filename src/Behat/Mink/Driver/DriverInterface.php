@@ -342,4 +342,13 @@ interface DriverInterface
      * @param   string  $condition  JS condition
      */
     function wait($time, $condition);
+
+    /**
+     * Accepts the currently displayed alert dialog
+     *
+     * Usually, this is equivalent to clicking on the 'OK' button in the dialog.
+     *
+     * @return void
+     */
+    function acceptAlert();
 }

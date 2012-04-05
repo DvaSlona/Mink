@@ -258,4 +258,16 @@ class Session
     {
         $this->driver->wait($time, $condition);
     }
+
+    /**
+     * Accepts the currently displayed alert dialog
+     *
+     * Usually, this is equivalent to clicking on the 'OK' button in the dialog.
+     *
+     * @return void
+     */
+    public function acceptAlert()
+    {
+        $this->driver->acceptAlert();
+    }
 }

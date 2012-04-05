@@ -33,4 +33,24 @@ class Selenium2DriverTest extends JavascriptDriverTest
         $clicker->mouseOver();
         $this->assertEquals('mouse overed', $clicker->getText());
     }
+
+    public function testIssue158()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/issue158.html'));
+
+        $session->getPage()->findLink('alert')->click();
+        $session->acceptAlert();
+    }
+
+    /**
+     * @expectedException NoAlertOpenWebDriverError
+     */
+    public function testIssue158_noAlert()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/issue158.html'));
+
+        $session->acceptAlert();
+    }
 }

@@ -575,6 +575,16 @@ JS;
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::wait()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     */
+    public function acceptAlert()
+    {
+        throw new UnsupportedDriverActionException('Accepting alerts is not supported by %s', $this);
+    }
+
+    /**
      * @see Behat\Mink\Driver\DriverInterface::isVisible()
      *
      * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver

@@ -114,4 +114,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
         $this->session->wait(1000, 'function() {}');
     }
+
+    public function testAcceptAlert()
+    {
+        $this->driver
+            ->expects($this->once())
+            ->method('acceptAlert');
+
+        $this->session->acceptAlert();
+    }
 }
