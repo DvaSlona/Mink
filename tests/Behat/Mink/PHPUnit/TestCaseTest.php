@@ -40,4 +40,35 @@ class TestCaseTest extends \PHPUnit_Framework_TestCase
 
         TestCase::assertPageContainsText($session, 'bar');
     }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertPageNotContainsText
+     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     */
+    public function testAssertPageNotContainsTextFail()
+    {
+        $page = $this->getMock('stdClass', array('getText'));
+        $page->expects($this->any())->method('getText')->will($this->returnValue('foo bar baz'));
+
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getPage'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getPage')->will($this->returnValue($page));
+
+        TestCase::assertPageNotContainsText($session, 'bar');
+    }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertPageNotContainsText
+     */
+    public function testAssertPageNotContainsTextSuccess()
+    {
+        $page = $this->getMock('stdClass', array('getText'));
+        $page->expects($this->any())->method('getText')->will($this->returnValue('foo bar baz'));
+
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getPage'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getPage')->will($this->returnValue($page));
+
+        TestCase::assertPageNotContainsText($session, 'bad');
+    }
 }

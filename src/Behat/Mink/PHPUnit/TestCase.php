@@ -21,6 +21,8 @@ use Behat\SahiClient\Connection as SahiConnection,
 
 use Behat\Mink\PHPUnit\Constraints\PageContains as PageContainsConstraint;
 
+use PHPUnit_Framework_Constraint_Not;
+
 require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/Framework/Assert/Functions.php';
 
@@ -109,8 +111,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      * @param string  $text     text to look for
      * @param string  $message  optional message to show on fail
      *
-     * @throws ResponseTextException
-     *
      * @return void
      */
     public static function assertPageContainsText(Session $session, $text, $message = null)
@@ -122,6 +122,27 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         sprintf('The text "%s" was not found anywhere in the text of the page', $text);
 
       $constraint = new PageContainsConstraint($text, false);
+      self::assertThat($haystack, $constraint, $message);
+    }
+
+    /**
+     * Checks, that page not contains specified text
+     *
+     * @param Session $session
+     * @param string  $text     text to look for
+     * @param string  $message  optional message to show on fail
+     *
+     * @return void
+     */
+    public static function assertPageNotContainsText(Session $session, $text, $message = null)
+    {
+      $text = str_replace('\\"', '"', $text);
+      $haystack = $session->getPage()->getText();
+
+      $message = $message ?:
+        sprintf('The text "%s" was found in the text of the page', $text);
+
+      $constraint = new PHPUnit_Framework_Constraint_Not(new PageContainsConstraint($text, false));
       self::assertThat($haystack, $constraint, $message);
     }
 
